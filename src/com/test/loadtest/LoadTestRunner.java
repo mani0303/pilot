@@ -1,4 +1,4 @@
-
+/*
 package com.test.loadtest;
 
 import org.apache.jmeter.control.LoopController;
@@ -10,11 +10,11 @@ import org.apache.jmeter.testelement.TestPlan;
 import org.apache.jmeter.threads.SetupThreadGroup;
 import org.apache.jmeter.util.JMeterUtils;
 import org.apache.jorphan.collections.HashTree;
-/** File name   :LoadTestRunner.java
+*//** File name   :LoadTestRunner.java
  * Description  : 
  * Date created :13 Sep 2016
  * Author 		:Veera
- */
+ *//*
 public class LoadTestRunner {
 	public static void main(String[] args){
         JMeterUtils.loadJMeterProperties("C:/Programs/jmeter/apache-jmeter-2.13/bin/jmeter.properties");
@@ -57,13 +57,14 @@ public class LoadTestRunner {
              summer = new Summariser(summariserName);
          }
          // Store execution results into a .jtl file
-         /*String logFile = jmeterHome + slash + "example.jtl";
+         String logFile = jmeterHome + slash + "example.jtl";
          ResultCollector logger = new ResultCollector(summer);
          logger.setFilename(logFile);
          testPlan.add(testPlan.getArray()[0], logger);
-         */
+         
 		
 		jm.configure(hashTree);
 		jm.run();
 	}
 }
+*/

@@ -49,6 +49,8 @@ public class Logger {
 	 */
 	public void log(String step,String status){
 		String testType=testParameters.get("Test_Type").trim();
+		String testId = testParameters.get("Test_ID");
+		String browser = testParameters.get("Browser_Name");
 		int pass=(int) statistic.get("passed");
 		int error=(int) statistic.get("errors");
 		int warn=(int) statistic.get("warnings");
@@ -58,9 +60,10 @@ public class Logger {
 		stepInfo.put("StepDesc", step);
 		stepInfo.put("StepStatus", status);
 		statistic.put("total",total);
+		System.out.println("Id : "+testId+" Step: "+step+" Status: "+status);
 		switch(status){
 		case "PASS" :
-			++pass;
+			++pass;			
 			statistic.put("passed",pass);
 			break;
 		case "FAIL" :
@@ -72,8 +75,7 @@ public class Logger {
 			statistic.put("warnings",warn);
 			break;
 		}
-
-		if(driver!=null&&testType.equals("Functional")){
+		if(driver!=null&&testType.equals("Functional")&&!browser.equalsIgnoreCase("headless")){
 			captureScreen(total);
 		}else if(testType.equals("API_Test")){
 			captureResponse(total);
@@ -233,14 +235,14 @@ public class Logger {
 			htmlRow="<tr class=\"table-success\">\r\n" + 
 					"      <th scope=\"row\">"+stepInfo.get("StepId")+"</th>\r\n" + 
 					"      <td>"+stepInfo.get("StepDesc")+"</td>\r\n" + 
-					"		<td><a href=\"file:///"+reportDetailsDir+testId+"_"+stepInfo.get("StepId")+"."+fileFormat+"\">"+stepInfo.get("StepStatus")+"</a></td>\r\n" + 
+					"		<td><a href=\".\\"+testId+"_"+stepInfo.get("StepId")+"."+fileFormat+"\">"+stepInfo.get("StepStatus")+"</a></td>\r\n" +
 					"    </tr>";
 
 		}else if(stepInfo.get("StepStatus").equals("FAIL")){
 			htmlRow="<tr class=\"table-danger\">\r\n" + 
 					"      <th scope=\"row\">"+stepInfo.get("StepId")+"</th>\r\n" + 
 					"      <td>"+stepInfo.get("StepDesc")+"</td>\r\n" + 
-					"		<td><a href=\"file:///"+reportDetailsDir+testId+"_"+stepInfo.get("StepId")+"."+fileFormat+"\">"+stepInfo.get("StepStatus")+"</a></td>\r\n" + 
+					"		<td><a href=\".\\"+testId+"_"+stepInfo.get("StepId")+"."+fileFormat+"\">"+stepInfo.get("StepStatus")+"</a></td>\r\n" + 
 					"    </tr>";
 
 		}else{
@@ -248,7 +250,7 @@ public class Logger {
 					"      <th scope=\"row\">"+stepInfo.get("StepId")+"</th>\r\n" + 
 					"      <td>"+stepInfo.get("StepDesc")+"</td>\r\n" + 
 					//					"		<td><a href=\"#"+testId+"_"+stepInfo.get("StepId")+"\" data-toggle=\"modal\">"+stepInfo.get("StepStatus")+"</a></td>\r\n" + 
-					"		<td><a href=\"file:///"+reportDetailsDir+testId+"_"+stepInfo.get("StepId")+"."+fileFormat+"\">"+stepInfo.get("StepStatus")+"</a></td>\r\n" + 
+					"		<td><a href=\".\\"+testId+"_"+stepInfo.get("StepId")+"."+fileFormat+"\">"+stepInfo.get("StepStatus")+"</a></td>\r\n" + 
 					"    </tr>";
 		}
 		return htmlRow;

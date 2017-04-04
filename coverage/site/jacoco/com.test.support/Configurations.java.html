@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Configurations.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Direct Energy Test Automation</a> &gt; <a href="index.source.html" class="el_package">com.test.support</a> &gt; <span class="el_source">Configurations.java</span></div><h1>Configurations.java</h1><pre class="source lang-java linenums">package com.test.support;
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.util.Properties;
+/**
+ * File name   :Configurations.java
+ * Description  : 
+ * Date created :13 Sep 2016
+ * Author 		:Veera
+ */
+public class Configurations {
+	private static Configurations configurations;
+	private Properties properties;
+<span class="fc" id="L14">	private Settings settings = Settings.getInstance();</span>
+<span class="fc" id="L15">	private Configurations(){};</span>
+	public static Configurations getInstance(){
+<span class="fc bfc" id="L17" title="All 2 branches covered.">		if(configurations==null){</span>
+<span class="fc" id="L18">			configurations= new Configurations();</span>
+		}
+<span class="fc" id="L20">		return configurations;</span>
+	}
+	/**
+	 * 
+	 * Method name  : setConfigurationProperties
+	  * Return types : void
+	 * Description  :
+	 */
+	private void setConfigurationProperties(){
+<span class="fc" id="L29">		String confFile = settings.getConfigurationProp();</span>
+<span class="fc" id="L30">		properties = new Properties();</span>
+		try {
+<span class="fc" id="L32">			InputStream inStream = new FileInputStream(confFile);;</span>
+<span class="fc" id="L33">			properties.load(inStream);</span>
+<span class="pc" id="L34">		} catch (Exception e) {</span>
+<span class="nc" id="L35">			new Exception(&quot;Error in reading configuration file!!!&quot;);</span>
+		}
+<span class="fc" id="L37">	}</span>
+	/**
+	 * 
+	 * Method name  : getProperty
+	  * Return types : String
+	 * Description  :
+	 */
+	public String getProperty(String property){
+<span class="fc bfc" id="L45" title="All 2 branches covered.">		if(properties==null){</span>
+<span class="fc" id="L46">			setConfigurationProperties();</span>
+		}
+<span class="pc bpc" id="L48" title="1 of 2 branches missed.">		if(properties.getProperty(property)!=null){</span>
+<span class="fc" id="L49">			return properties.getProperty(property);</span>
+		}else{
+<span class="nc" id="L51">			return &quot;No such property&quot;;</span>
+		}
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span></div></body></html>

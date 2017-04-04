@@ -59,6 +59,7 @@ public class ApiTestHelper{
 		headers.put(headerName, headerValue);
 		return headers;
 	}
+	
 	/**
 	 * 
 	 * Method name  : addParameters
@@ -91,6 +92,7 @@ public class ApiTestHelper{
 		parameters.put(paramName, data.get(paramValue));
 		return parameters;
 	}
+	
 	/**
 	 * 
 	 * Method name  : setAccessToken
@@ -121,6 +123,29 @@ public class ApiTestHelper{
 		}
 		return jsonFileContent;
 	}
+	
+	
+	/**
+	 * 
+	 * Method name  : getXMLFileContent
+	 * Return types : String
+	 * Description  :
+	 */
+	public String getXMLFileContent(String fileName){
+		String xmlFilesPath = settings.getXMLFilesDir();
+		String xmlFileAbsPath=xmlFilesPath+fileName+".xml";
+		String xmlFileContent = null;
+		FileInputStream inputStream = null;
+		try {
+			inputStream = new FileInputStream(xmlFileAbsPath);
+			xmlFileContent = IOUtils.toString(inputStream);
+			inputStream.close();
+		} catch(Exception e){
+			e.printStackTrace();
+		}
+		return xmlFileContent;
+	}
+	
 	/**
 	 * Method name  : getURLParam
 	 * Return types : String

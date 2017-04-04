@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ReportTemplate.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Direct Energy Test Automation</a> &gt; <a href="index.source.html" class="el_package">com.test.report</a> &gt; <span class="el_source">ReportTemplate.java</span></div><h1>ReportTemplate.java</h1><pre class="source lang-java linenums">package com.test.report;
+/**
+ * File name    :ReportTemplate.java
+ * Description  : 
+ * Date created :13 Sep 2016
+ * Author 		:Veera
+ */
+<span class="nc" id="L8">public class ReportTemplate {</span>
+	/**
+	 * Method name  : getReportTemplate
+	 * Return types : String
+	 * Description  :
+	 */
+	public static String getReportTemplate(){
+<span class="fc" id="L15">		String htmlSource = &quot;&lt;html&gt;&lt;head&gt;&lt;meta http-equiv=\&quot;Content-Type\&quot; content=\&quot;text/html; charset=windows-1252\&quot;&gt;\r\n&quot; + </span>
+				&quot;	&lt;title&gt;Test Reports&lt;/title&gt;\r\n&quot; + 
+				&quot;	&lt;link rel=\&quot;stylesheet\&quot; type=\&quot;text/css\&quot; href=\&quot;./report-resources/report.css\&quot;&gt;\r\n&quot; + 
+				&quot;	&lt;link rel=\&quot;stylesheet\&quot; type=\&quot;text/css\&quot; href=\&quot;./report-resources/tablesorter.css\&quot;&gt;\r\n&quot; + 
+				&quot;	&lt;script src=\&quot;./report-resources/jquery-1.11.2.min.js\&quot;&gt;&lt;/script&gt;\r\n&quot; + 
+				&quot;	&lt;script src=\&quot;./report-resources/handlebars-v2.0.0.js\&quot;&gt;&lt;/script&gt;\r\n&quot; + 
+				&quot;	&lt;script src=\&quot;./report-resources/tablesorter.js\&quot;&gt;&lt;/script&gt;\r\n&quot; + 
+				&quot;	&lt;script src=\&quot;./report-resources/report.js\&quot;&gt;&lt;/script&gt;\r\n&quot; + 
+				&quot;	&lt;script&gt;\r\n&quot; + 
+				&quot;	var reportData = REPLACE THIS WITH TEST RESULTS&quot; + 
+				&quot;	&lt;/script&gt;\r\n&quot; + 
+				&quot;	&lt;script&gt;\r\n&quot; + 
+				&quot;	$(function () {\r\n&quot; + 
+				&quot;		var Report = createGalenTestOverview();\r\n&quot; + 
+				&quot;		Report.renderTestsTable(\&quot;tests-table\&quot;, reportData);\r\n&quot; + 
+				&quot;		window.onhashchange = function () {\r\n&quot; + 
+				&quot;			Report.handleHash(window.location.hash.substr(1));\r\n&quot; + 
+				&quot;		};\r\n&quot; + 
+				&quot;		Report.handleHash(window.location.hash.substr(1));\r\n&quot; + 
+				&quot;	});\r\n&quot; + 
+				&quot;	&lt;/script&gt;\r\n&quot; + 
+				&quot;	&lt;/head&gt;\r\n&quot; + 
+				&quot;	&lt;body&gt;\r\n&quot; + 
+				&quot;	&lt;div class=\&quot;tests-overview\&quot;&gt;\r\n&quot; + 
+				//&quot;	&lt;h2&gt;Test Report&lt;/h2&gt;\r\n&quot; +
+				&quot;	&lt;img src=\&quot;./report-resources/logo.png\&quot; alt=\&quot;Direct Energy Logo\&quot; style=\&quot;width:100%;height:85px;\&quot;&gt;\r\n&quot; +
+				&quot;	&lt;div class=\&quot;tabs\&quot;&gt;\r\n&quot; + 
+				&quot;	&lt;a class=\&quot;tab tab-tests tab-selected\&quot; href=\&quot;http://galenframework.com/public/samples/reports/report.html#tests\&quot;&gt;Tests&lt;/a&gt;\r\n&quot; + 
+				&quot;	&lt;/div&gt;\r\n&quot; + 
+				&quot;	&lt;div id=\&quot;tests-table\&quot; style=\&quot;display: block;\&quot;&gt;\r\n&quot; + 
+				&quot;	&lt;/div&gt;\r\n&quot; + 
+				&quot;	&lt;script id=\&quot;tests-table-tpl\&quot; type=\&quot;text/x-handlebars-template\&quot;&gt;\r\n&quot; + 
+				&quot;	&lt;table class=\&quot;tests tablesorter\&quot;&gt;\r\n&quot; + 
+				&quot;	&lt;thead&gt;\r\n&quot; + 
+				&quot;	&lt;tr&gt;\r\n&quot; + 
+				&quot;	&lt;th&gt;Test Description&lt;/th&gt;\r\n&quot; + 
+				&quot;	&lt;th&gt;Test ID&lt;/th&gt;\r\n&quot; + 				
+				&quot;	&lt;th&gt;Passed&lt;/th&gt;\r\n&quot; + 
+				&quot;	&lt;th&gt;Failed&lt;/th&gt;\r\n&quot; + 
+				&quot;	&lt;th&gt;Info&lt;/th&gt;\r\n&quot; + 
+				&quot;	&lt;th&gt;Total&lt;/th&gt;\r\n&quot; + 
+				&quot;	&lt;th&gt;Started&lt;/th&gt;\r\n&quot; + 
+				&quot;	&lt;th&gt;Duration&lt;/th&gt;\r\n&quot; + 
+				&quot;	&lt;th&gt;Progress Bar&lt;/th&gt;\r\n&quot; + 
+				&quot;	&lt;/tr&gt;\r\n&quot; + 
+				&quot;	&lt;/thead&gt;\r\n&quot; + 
+				&quot;	&lt;tbody&gt;\r\n&quot; + 
+				&quot;	{{#each tests}}\r\n&quot; + 
+				&quot;	&lt;tr data-groups=\&quot;{{groups}}\&quot;&gt;\r\n&quot; + 
+				&quot;	&lt;td class=\&quot;suite-link\&quot;&gt;\r\n&quot; + 
+				&quot;	&lt;a href=\&quot;./report-resources/report-details/{{testId}}.html\&quot;&gt;{{name}}&lt;/a&gt;\r\n&quot; + 
+				&quot;	&lt;/td&gt;\r\n&quot; +
+				&quot;	&lt;td class=\&quot;test id\&quot;&gt;{{testId}}&lt;/td&gt;\r\n&quot; +
+				&quot;	&lt;td class=\&quot;status passed\&quot;&gt;{{statistic.passed}}&lt;/td&gt;\r\n&quot; + 
+				&quot;	&lt;td class=\&quot;status failed\&quot;&gt;{{statistic.errors}}&lt;/td&gt;\r\n&quot; + 
+				&quot;	&lt;td class=\&quot;status warnings\&quot;&gt;{{statistic.warnings}}&lt;/td&gt;\r\n&quot; + 
+				&quot;	&lt;td class=\&quot;status total\&quot;&gt;{{statistic.total}}&lt;/td&gt;\r\n&quot; + 
+				&quot;	&lt;td class=\&quot;time\&quot;&gt;{{formatDateTime startedAt}}&lt;/td&gt;\r\n&quot; + 
+				&quot;	&lt;td class=\&quot;time\&quot;&gt;{{formatDurationHumanReadable duration}}&lt;/td&gt;\r\n&quot; + 
+				&quot;	&lt;td class=\&quot;progressbar\&quot;&gt;\r\n&quot; + 
+				&quot;	{{renderProgressBar statistic}}\r\n&quot; + 
+				&quot;	&lt;/td&gt;\r\n&quot; + 
+				&quot;	&lt;/tr&gt;\r\n&quot; + 
+				&quot;	{{/each}}\r\n&quot; + 
+				&quot;	&lt;/tbody&gt;\r\n&quot; + 
+				&quot;	&lt;/table&gt;\r\n&quot; + 
+				&quot;	&lt;/script&gt;\r\n&quot; + 
+				&quot;	&lt;script id=\&quot;groups-table-tpl\&quot; type=\&quot;text/x-handlebars-template\&quot;&gt;\r\n&quot; + 
+				&quot;	&lt;/script&gt;\r\n&quot; + 
+				&quot;	&lt;/div&gt;\r\n&quot; + 
+				&quot;	&lt;/body&gt;&lt;/html&gt;&quot;;
+<span class="fc" id="L86">		return htmlSource;</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span></div></body></html>

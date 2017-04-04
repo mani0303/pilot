@@ -36,7 +36,8 @@ public class ReportTemplate {
 				"	</head>\r\n" + 
 				"	<body>\r\n" + 
 				"	<div class=\"tests-overview\">\r\n" + 
-				"	<h2>Test Report</h2>\r\n" + 
+				//"	<h2>Test Report</h2>\r\n" +
+				"	<img src=\"./report-resources/logo.png\" alt=\"Direct Energy Logo\" style=\"width:100%;height:85px;\">\r\n" +
 				"	<div class=\"tabs\">\r\n" + 
 				"	<a class=\"tab tab-tests tab-selected\" href=\"http://galenframework.com/public/samples/reports/report.html#tests\">Tests</a>\r\n" + 
 				"	</div>\r\n" + 

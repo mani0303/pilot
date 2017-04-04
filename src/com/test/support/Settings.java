@@ -11,8 +11,10 @@ public class Settings {
 	private String driverEXEDir;
 	private String reportDetailsDir;
 	private String JsonFilesDir;
+	private String XMLFilesDir;
+	private String PhantomJSPath;
 	private Settings(){};
-	
+
 	/**
 	 * 
 	 * Method name  : getInstance
@@ -34,7 +36,7 @@ public class Settings {
 		String projectPath = new File(System.getProperty("user.dir")).getAbsolutePath();
 		this.projectPath=projectPath;
 	}
-	
+
 	/**
 	 * 
 	 * Method name  : getProjectPath
@@ -58,7 +60,7 @@ public class Settings {
 		}
 		return configurationProp;
 	}
-	
+
 	/**
 	 * Method name  : setConfigurationProp
 	 * Return types : void
@@ -88,7 +90,7 @@ public class Settings {
 	public void setTestRunner() {
 		this.testRunner = getProjectPath()+System.getProperty("file.separator")+"resources"+System.getProperty("file.separator")+"Test_Runner.xlsx";
 	}
-	
+
 	/**
 	 * 
 	 * Method name  : getElementPropertiesDir
@@ -110,7 +112,7 @@ public class Settings {
 	public void setElementPropertiesDir() {
 		this.elementPropertiesDir = getProjectPath()+System.getProperty("file.separator")+"resources"+System.getProperty("file.separator")+"element-properties"+System.getProperty("file.separator");
 	}
-	
+
 	/**
 	 * 
 	 * Method name  : getDriverEXEDir
@@ -123,7 +125,7 @@ public class Settings {
 		}
 		return driverEXEDir;
 	}
-	
+
 	/**
 	 * 
 	 * Method name  : setDriverEXEDir
@@ -133,7 +135,7 @@ public class Settings {
 	public void setDriverEXEDir() {
 		this.driverEXEDir = getProjectPath()+System.getProperty("file.separator")+"resources"+System.getProperty("file.separator")+"driver-exe"+System.getProperty("file.separator");
 	}
-	
+
 	/**
 	 * 
 	 * Method name  : getReportDetailsDir
@@ -167,6 +169,20 @@ public class Settings {
 		}
 		return JsonFilesDir;
 	}
+
+	/**
+	 * 
+	 * Method name  : getXMLFilesDir
+	 * Return types : String
+	 * Description  :
+	 */
+	public String getXMLFilesDir() {
+		if(XMLFilesDir==null){
+			setXMLFilesDir();
+		}
+		return XMLFilesDir;
+	}
+
 	/**
 	 * 
 	 * Method name  : setJsonFilesDir
@@ -175,5 +191,38 @@ public class Settings {
 	 */
 	public void setJsonFilesDir() {
 		this.JsonFilesDir = getProjectPath()+System.getProperty("file.separator")+"resources"+System.getProperty("file.separator")+"api-tests-resources"+System.getProperty("file.separator")+"json-files"+System.getProperty("file.separator");
+	}
+
+	/**
+	 * 
+	 * Method name  : setJsonFilesDir
+	 * Return types : void
+	 * Description  :
+	 */
+	public void setXMLFilesDir() {
+		this.XMLFilesDir = getProjectPath()+System.getProperty("file.separator")+"resources"+System.getProperty("file.separator")+"api-tests-resources"+System.getProperty("file.separator")+"xml-files"+System.getProperty("file.separator");
+	}
+
+	/**
+	 * 
+	 * Method name  : setPhantomJSPath
+	 * Return types : void
+	 * Description  :
+	 */
+	public void setPhantomJSPath() {
+		this.PhantomJSPath = getProjectPath()+System.getProperty("file.separator")+"resources"+System.getProperty("file.separator")+"phantomjs"+System.getProperty("file.separator");
+	}
+
+	/**
+	 * 
+	 * Method name  : getPhantomJSPath
+	 * Return types : String
+	 * Description  :
+	 */
+	public String getPhantomJSPath() {
+		if(PhantomJSPath==null){
+			setPhantomJSPath();
+		}
+		return PhantomJSPath;
 	}
 }

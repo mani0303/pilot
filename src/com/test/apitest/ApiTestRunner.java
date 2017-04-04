@@ -95,7 +95,7 @@ public class ApiTestRunner {
 	 * Return types : void
 	 * Description  :
 	 */
-	@Test(description= "PUT Salvador")
+	@Test(description= "PUT Salvador-JSON-Ephemeral")
 	public void verifyPostJsonResponse(){
 		try{
 			String jsonFileName=data.get("Json_File_Name");
@@ -131,7 +131,7 @@ public class ApiTestRunner {
 	 * Return types : void
 	 * Description  :
 	 */
-	@Test(description= "GET Salvador")
+	@Test(description= "GET Salvador-JSON-Ephemeral")
 	public void verifyGetJsonResponse(){
 		try{
 			String jsonFileName=data.get("Json_File_Name");
@@ -167,7 +167,7 @@ public class ApiTestRunner {
 	 * Return types : void
 	 * Description  :
 	 */
-	@Test(description= "UPDATE Salvador")
+	@Test(description= "UPDATE Salvador-JSON-Ephemeral")
 	public void verifyUpdatePostJsonResponse(){
 		try{
 			String jsonFileName=data.get("Json_File_Name");
@@ -180,6 +180,7 @@ public class ApiTestRunner {
 			log.setResponseInLogger(response);
 			log.log("Salvador PUT Endpoint:  "+endPoint+resource+urlParameters, Status.INFO);
 			if(response.statusCode()==200){
+				//eTag=response.getHeader("ETag").replaceAll("\"", "");
 				log.log("Status code validation: "+200, Status.PASS);
 			}else{
 				log.log("Status code validation: "+response.statusCode(), Status.FAIL);
@@ -188,7 +189,7 @@ public class ApiTestRunner {
 			log.log("Salvador PUT Status Line:  "+response.statusLine(), Status.INFO);
 			log.log("Salvador PUT Time duration:  "+response.getTimeIn(TimeUnit.MILLISECONDS), Status.INFO);
 			JsonElement actualResponse = parser.parse(response.asString());
-			JsonElement expectedResponse = parser.parse(ath.getJsonFileContent(jsonFileName));
+			JsonElement expectedResponse = parser.parse(ath.getJsonFileContent(jsonFileName).replace("\"version\" : \"REPLACE_VERSION\",", ""));
 			if(actualResponse.equals(expectedResponse)){
 				log.log("Salvador PUT request body matches with reponse body", Status.PASS);
 			}else{
@@ -204,7 +205,7 @@ public class ApiTestRunner {
 	 * Return types : void
 	 * Description  :
 	 */
-	@Test(description= "DELETE Salvador")
+	@Test(description= "DELETE Salvador-JSON-Ephemeral")
 	public void verifyDeleteJsonResponse(){
 		try{
 			String endPoint = data.get("Endpoint");
@@ -212,7 +213,7 @@ public class ApiTestRunner {
 			String urlParameters = ath.getURLParam();
 			Response response =delete(endPoint+resource+urlParameters+"/"+eTag);
 			log.setResponseInLogger(response);
-			log.log("Salvador DELETE Endpoint:  "+endPoint+resource+urlParameters, Status.INFO);
+			log.log("Salvador DELETE Endpoint:  "+endPoint+resource+urlParameters+"/"+eTag, Status.INFO);
 			if(response.statusCode()==200){
 				log.log("Status code validation: "+200, Status.PASS);
 			}else{
@@ -225,4 +226,422 @@ public class ApiTestRunner {
 			log.log("Exception occurred in the test "+ e.getMessage(), Status.FAIL);
 		}
 	}
+
+
+
+/**
+ * Method name  : verifyPostJsonResponse
+ * Return types : void
+ * Description  :
+ */
+@Test(description= "PUT Salvador-XML-Permanent")
+public void verifyPostXMLResponse1(){
+	try{
+		String xmlFileName=data.get("Json_File_Name");
+		String endPoint = data.get("Endpoint");
+		String resource = data.get("Resource");
+		String urlParameters = ath.getURLParam();
+		String putBody=ath.getXMLFileContent(xmlFileName);
+		Response response =given().contentType("application/xml").with().body(putBody).put(endPoint+resource+urlParameters);
+		log.setResponseInLogger(response);
+		log.log("Salvador PUT Endpoint:  "+endPoint+resource+urlParameters, Status.INFO);
+		if(response.statusCode()==200){
+			log.log("Status code validation: "+200, Status.PASS);
+		}else{
+			log.log("Status code validation: "+response.statusCode(), Status.FAIL);
+		}
+		log.log("Salvador PUT Headers:  "+response.getHeaders().toString(), Status.INFO);
+		log.log("Salvador PUT Status Line:  "+response.statusLine(), Status.INFO);
+		log.log("Salvador PUT Time duration:  "+response.getTimeIn(TimeUnit.MILLISECONDS), Status.INFO);
+		String actualResponse = response.asString();
+		String expectedResponse = ath.getXMLFileContent(xmlFileName);
+		if(expectedResponse.contains(actualResponse)){
+			log.log("Salvador PUT request body matches with reponse body", Status.PASS);
+		}else{
+			log.log("Salvador PUT request body doesn't match with reponse body", Status.FAIL);
+		}
+	}catch(Exception e){
+		log.log("Exception occurred in the test "+ e.getMessage(), Status.FAIL);
+	}
 }
+
+/**
+ * Method name  : verifyGetJsonResponse
+ * Return types : void
+ * Description  :
+ */
+@Test(description= "GET Salvador-XML-Ephemeral")
+public void verifyGetXMLResponse(){
+	try{
+		String xmlFileName=data.get("Json_File_Name");
+		String endPoint = data.get("Endpoint");
+		String resource = data.get("Resource");
+		String urlParameters = ath.getURLParam();
+		Response response =get(endPoint+resource+urlParameters);
+		log.setResponseInLogger(response);
+		log.log("Salvador GET Endpoint:  "+endPoint+resource+urlParameters, Status.INFO);
+		if(response.statusCode()==200){
+			//eTag=response.getHeader("ETag").replaceAll("\"", "");
+			log.log("Status code validation: "+200, Status.PASS);
+		}else{
+			log.log("Status code validation: "+response.statusCode(), Status.FAIL);
+		}
+		log.log("Salvador GET Headers:  "+response.getHeaders().toString(), Status.INFO);
+		log.log("Salvador GET Status Line:  "+response.statusLine(), Status.INFO);
+		log.log("Salvador GET Time duration:  "+response.getTimeIn(TimeUnit.MILLISECONDS), Status.INFO);
+		String actualResponse = response.asString();
+		String expectedResponse = ath.getXMLFileContent(xmlFileName);
+		System.out.println("actualResponse :"+actualResponse);
+		System.out.println("expectedResponse :"+expectedResponse);
+		if(expectedResponse.contains(actualResponse)){
+			log.log("Salvador GET request body matches with reponse body", Status.PASS);
+		}else{
+			log.log("Salvador GET request body doesn't match with reponse body", Status.FAIL);
+		}
+	}catch(Exception e){
+		log.log("Exception occurred in the test "+ e.getMessage(), Status.FAIL);
+	}
+}
+
+/**
+ * Method name  : verifyUpdatePostJsonResponse
+ * Return types : void
+ * Description  :
+ */
+@Test(description= "UPDATE Salvador-XML-Ephemeral")
+public void verifyUpdatePostXMLResponse(){
+	try{
+		String xmlFileName=data.get("Json_File_Name");
+		String endPoint = data.get("Endpoint");
+		String resource = data.get("Resource");
+		String urlParameters = ath.getURLParam();
+		String putBody=ath.getXMLFileContent(xmlFileName);
+		System.out.println(putBody);
+		Response response =given().contentType("application/xml").with().body(putBody).put(endPoint+resource+urlParameters);
+		log.setResponseInLogger(response);
+		log.log("Salvador PUT Endpoint:  "+endPoint+resource+urlParameters, Status.INFO);
+		if(response.statusCode()==200){
+			//eTag=response.getHeader("ETag").replaceAll("\"", "");
+			log.log("Status code validation: "+200, Status.PASS);
+		}else{
+			log.log("Status code validation: "+response.statusCode(), Status.FAIL);
+		}
+		log.log("Salvador PUT Headers:  "+response.getHeaders().toString(), Status.INFO);
+		log.log("Salvador PUT Status Line:  "+response.statusLine(), Status.INFO);
+		log.log("Salvador PUT Time duration:  "+response.getTimeIn(TimeUnit.MILLISECONDS), Status.INFO);
+		String actualResponse = response.asString();
+		String expectedResponse = ath.getXMLFileContent(xmlFileName);
+		if(expectedResponse.contains(actualResponse)){
+			log.log("Salvador PUT request body matches with reponse body", Status.PASS);
+		}else{
+			log.log("Salvador PUT request body doesn't match with reponse body", Status.FAIL);
+		}
+	}catch(Exception e){
+		log.log("Exception occurred in the test "+ e.getMessage(), Status.FAIL);
+	}
+}
+
+/**
+ * Method name  : verifyDeleteJsonResponse
+ * Return types : void
+ * Description  :
+ */
+@Test(description= "DELETE Salvador-XML-Ephemeral")
+public void verifyDeleteXMLResponse(){
+	try{
+		String endPoint = data.get("Endpoint");
+		String resource = data.get("Resource");
+		String urlParameters = ath.getURLParam();
+		Response response =delete(endPoint+resource+urlParameters);
+		log.setResponseInLogger(response);
+		log.log("Salvador DELETE Endpoint:  "+endPoint+resource+urlParameters, Status.INFO);
+		if(response.statusCode()==200){
+			log.log("Status code validation: "+200, Status.PASS);
+		}else{
+			log.log("Status code validation: "+response.statusCode(), Status.FAIL);
+		}
+		log.log("Salvador DELETE Headers:  "+response.getHeaders().toString(), Status.INFO);
+		log.log("Salvador DELETE Status Line:  "+response.statusLine(), Status.INFO);
+		log.log("Salvador DELETE Time duration:  "+response.getTimeIn(TimeUnit.MILLISECONDS), Status.INFO);
+	}catch(Exception e){
+		log.log("Exception occurred in the test "+ e.getMessage(), Status.FAIL);
+	}
+}
+/**
+ * Method name  : verifyPostJsonResponse
+ * Return types : void
+ * Description  :
+ */
+@Test(description= "PUT Salvador-JSON-Permanent")
+public void verifyPostJsonResponse1(){
+	try{
+		String jsonFileName=data.get("Json_File_Name");
+		String endPoint = data.get("Endpoint");
+		String resource = data.get("Resource");
+		String urlParameters = ath.getURLParam();
+		String putBody=ath.getJsonFileContent(jsonFileName);
+		Response response =given().contentType("application/json").with().body(putBody).put(endPoint+resource+urlParameters);
+		log.setResponseInLogger(response);
+		log.log("Salvador PUT Endpoint:  "+endPoint+resource+urlParameters, Status.INFO);
+		if(response.statusCode()==200){
+			log.log("Status code validation: "+200, Status.PASS);
+		}else{
+			log.log("Status code validation: "+response.statusCode(), Status.FAIL);
+		}
+		log.log("Salvador PUT Headers:  "+response.getHeaders().toString(), Status.INFO);
+		log.log("Salvador PUT Status Line:  "+response.statusLine(), Status.INFO);
+		log.log("Salvador PUT Time duration:  "+response.getTimeIn(TimeUnit.MILLISECONDS), Status.INFO);
+		JsonElement actualResponse = parser.parse(response.asString());
+		JsonElement expectedResponse = parser.parse(ath.getJsonFileContent(jsonFileName));
+		if(actualResponse.equals(expectedResponse)){
+			log.log("Salvador PUT request body matches with reponse body", Status.PASS);
+		}else{
+			log.log("Salvador PUT request body doesn't match with reponse body", Status.FAIL);
+		}
+	}catch(Exception e){
+		log.log("Exception occurred in the test "+ e.getMessage(), Status.FAIL);
+	}
+}
+
+/**
+ * Method name  : verifyGetJsonResponse
+ * Return types : void
+ * Description  :
+ */
+@Test(description= "GET Salvador-JSON-Permanent")
+public void verifyGetJsonResponse1(){
+	try{
+		String jsonFileName=data.get("Json_File_Name");
+		String endPoint = data.get("Endpoint");
+		String resource = data.get("Resource");
+		String urlParameters = ath.getURLParam();
+		Response response =get(endPoint+resource+urlParameters);
+		log.setResponseInLogger(response);
+		log.log("Salvador GET Endpoint:  "+endPoint+resource+urlParameters, Status.INFO);
+		if(response.statusCode()==200){
+			eTag=response.getHeader("ETag").replaceAll("\"", "");
+			log.log("Status code validation: "+200, Status.PASS);
+		}else{
+			log.log("Status code validation: "+response.statusCode(), Status.FAIL);
+		}
+		log.log("Salvador GET Headers:  "+response.getHeaders().toString(), Status.INFO);
+		log.log("Salvador GET Status Line:  "+response.statusLine(), Status.INFO);
+		log.log("Salvador GET Time duration:  "+response.getTimeIn(TimeUnit.MILLISECONDS), Status.INFO);
+		JsonElement actualResponse = parser.parse(response.asString());
+		JsonElement expectedResponse = parser.parse(ath.getJsonFileContent(jsonFileName));
+		if(actualResponse.equals(expectedResponse)){
+			log.log("Salvador GET request body matches with reponse body", Status.PASS);
+		}else{
+			log.log("Salvador GET request body doesn't match with reponse body", Status.FAIL);
+		}
+	}catch(Exception e){
+		log.log("Exception occurred in the test "+ e.getMessage(), Status.FAIL);
+	}
+}
+
+/**
+ * Method name  : verifyUpdatePostJsonResponse
+ * Return types : void
+ * Description  :
+ */
+@Test(description= "UPDATE Salvador-JSON-Permanent")
+public void verifyUpdatePostJsonResponse1(){
+	try{
+		String jsonFileName=data.get("Json_File_Name");
+		String endPoint = data.get("Endpoint");
+		String resource = data.get("Resource");
+		String urlParameters = ath.getURLParam();
+		String putBody=ath.getJsonFileContent(jsonFileName).replace("REPLACE_VERSION", eTag);
+		System.out.println(putBody);
+		Response response =given().contentType("application/json").with().body(putBody).put(endPoint+resource+urlParameters);
+		log.setResponseInLogger(response);
+		log.log("Salvador PUT Endpoint:  "+endPoint+resource+urlParameters, Status.INFO);
+		if(response.statusCode()==200){
+			//eTag=response.getHeader("ETag").replaceAll("\"", "");
+			log.log("Status code validation: "+200, Status.PASS);
+		}else{
+			log.log("Status code validation: "+response.statusCode(), Status.FAIL);
+		}
+		log.log("Salvador PUT Headers:  "+response.getHeaders().toString(), Status.INFO);
+		log.log("Salvador PUT Status Line:  "+response.statusLine(), Status.INFO);
+		log.log("Salvador PUT Time duration:  "+response.getTimeIn(TimeUnit.MILLISECONDS), Status.INFO);
+		JsonElement actualResponse = parser.parse(response.asString());
+		JsonElement expectedResponse = parser.parse(ath.getJsonFileContent(jsonFileName).replace("\"version\" : \"REPLACE_VERSION\",", ""));
+		if(actualResponse.equals(expectedResponse)){
+			log.log("Salvador PUT request body matches with reponse body", Status.PASS);
+		}else{
+			log.log("Salvador PUT request body doesn't match with reponse body", Status.FAIL);
+		}
+	}catch(Exception e){
+		log.log("Exception occurred in the test "+ e.getMessage(), Status.FAIL);
+	}
+}
+
+/**
+ * Method name  : verifyDeleteJsonResponse
+ * Return types : void
+ * Description  :
+ */
+@Test(description= "DELETE Salvador-JSON-Permanent")
+public void verifyDeleteJsonResponse1(){
+	try{
+		String endPoint = data.get("Endpoint");
+		String resource = data.get("Resource");
+		String urlParameters = ath.getURLParam();
+		Response response =delete(endPoint+resource+urlParameters+"/"+eTag);
+		log.setResponseInLogger(response);
+		log.log("Salvador DELETE Endpoint:  "+endPoint+resource+urlParameters+"/"+eTag, Status.INFO);
+		if(response.statusCode()==200){
+			log.log("Status code validation: "+200, Status.PASS);
+		}else{
+			log.log("Status code validation: "+response.statusCode(), Status.FAIL);
+		}
+		log.log("Salvador DELETE Headers:  "+response.getHeaders().toString(), Status.INFO);
+		log.log("Salvador DELETE Status Line:  "+response.statusLine(), Status.INFO);
+		log.log("Salvador DELETE Time duration:  "+response.getTimeIn(TimeUnit.MILLISECONDS), Status.INFO);
+	}catch(Exception e){
+		log.log("Exception occurred in the test "+ e.getMessage(), Status.FAIL);
+	}
+}
+
+
+/**
+ * Method name  : verifyPostJsonResponse
+ * Return types : void
+ * Description  :
+ */
+@Test(description= "PUT Salvador-XML-Ephemeral")
+public void verifyPostXMLResponse(){
+	try{
+		String xmlFileName=data.get("Json_File_Name");
+		String endPoint = data.get("Endpoint");
+		String resource = data.get("Resource");
+		String urlParameters = ath.getURLParam();
+		String putBody=ath.getXMLFileContent(xmlFileName);
+		Response response =given().contentType("application/xml").with().body(putBody).put(endPoint+resource+urlParameters);
+		log.setResponseInLogger(response);
+		log.log("Salvador PUT Endpoint:  "+endPoint+resource+urlParameters, Status.INFO);
+		if(response.statusCode()==200){
+			log.log("Status code validation: "+200, Status.PASS);
+		}else{
+			log.log("Status code validation: "+response.statusCode(), Status.FAIL);
+		}
+		log.log("Salvador PUT Headers:  "+response.getHeaders().toString(), Status.INFO);
+		log.log("Salvador PUT Status Line:  "+response.statusLine(), Status.INFO);
+		log.log("Salvador PUT Time duration:  "+response.getTimeIn(TimeUnit.MILLISECONDS), Status.INFO);
+		String actualResponse = response.asString();
+		String expectedResponse = ath.getXMLFileContent(xmlFileName);
+		if(expectedResponse.contains(actualResponse)){
+			log.log("Salvador PUT request body matches with reponse body", Status.PASS);
+		}else{
+			log.log("Salvador PUT request body doesn't match with reponse body", Status.FAIL);
+		}
+	}catch(Exception e){
+		log.log("Exception occurred in the test "+ e.getMessage(), Status.FAIL);
+	}
+}
+
+/**
+ * Method name  : verifyGetJsonResponse
+ * Return types : void
+ * Description  :
+ */
+@Test(description= "GET Salvador-XML-Permanent")
+public void verifyGetXMLResponse1(){
+	try{
+		String xmlFileName=data.get("Json_File_Name");
+		String endPoint = data.get("Endpoint");
+		String resource = data.get("Resource");
+		String urlParameters = ath.getURLParam();
+		Response response =get(endPoint+resource+urlParameters);
+		log.setResponseInLogger(response);
+		log.log("Salvador GET Endpoint:  "+endPoint+resource+urlParameters, Status.INFO);
+		if(response.statusCode()==200){
+			//eTag=response.getHeader("ETag").replaceAll("\"", "");
+			log.log("Status code validation: "+200, Status.PASS);
+		}else{
+			log.log("Status code validation: "+response.statusCode(), Status.FAIL);
+		}
+		log.log("Salvador GET Headers:  "+response.getHeaders().toString(), Status.INFO);
+		log.log("Salvador GET Status Line:  "+response.statusLine(), Status.INFO);
+		log.log("Salvador GET Time duration:  "+response.getTimeIn(TimeUnit.MILLISECONDS), Status.INFO);
+		String actualResponse = response.asString();
+		String expectedResponse = ath.getXMLFileContent(xmlFileName);
+		System.out.println("actualResponse :"+actualResponse);
+		System.out.println("expectedResponse :"+expectedResponse);
+		if(expectedResponse.contains(actualResponse)){
+			log.log("Salvador GET request body matches with reponse body", Status.PASS);
+		}else{
+			log.log("Salvador GET request body doesn't match with reponse body", Status.FAIL);
+		}
+	}catch(Exception e){
+		log.log("Exception occurred in the test "+ e.getMessage(), Status.FAIL);
+	}
+}
+
+/**
+ * Method name  : verifyUpdatePostJsonResponse
+ * Return types : void
+ * Description  :
+ */
+@Test(description= "UPDATE Salvador-XML-Permanent")
+public void verifyUpdatePostXMLResponse1(){
+	try{
+		String xmlFileName=data.get("Json_File_Name");
+		String endPoint = data.get("Endpoint");
+		String resource = data.get("Resource");
+		String urlParameters = ath.getURLParam();
+		String putBody=ath.getXMLFileContent(xmlFileName);
+		System.out.println(putBody);
+		Response response =given().contentType("application/xml").with().body(putBody).put(endPoint+resource+urlParameters);
+		log.setResponseInLogger(response);
+		log.log("Salvador PUT Endpoint:  "+endPoint+resource+urlParameters, Status.INFO);
+		if(response.statusCode()==200){
+			//eTag=response.getHeader("ETag").replaceAll("\"", "");
+			log.log("Status code validation: "+200, Status.PASS);
+		}else{
+			log.log("Status code validation: "+response.statusCode(), Status.FAIL);
+		}
+		log.log("Salvador PUT Headers:  "+response.getHeaders().toString(), Status.INFO);
+		log.log("Salvador PUT Status Line:  "+response.statusLine(), Status.INFO);
+		log.log("Salvador PUT Time duration:  "+response.getTimeIn(TimeUnit.MILLISECONDS), Status.INFO);
+		String actualResponse = response.asString();
+		String expectedResponse = ath.getXMLFileContent(xmlFileName);
+		if(expectedResponse.contains(actualResponse)){
+			log.log("Salvador PUT request body matches with reponse body", Status.PASS);
+		}else{
+			log.log("Salvador PUT request body doesn't match with reponse body", Status.FAIL);
+		}
+	}catch(Exception e){
+		log.log("Exception occurred in the test "+ e.getMessage(), Status.FAIL);
+	}
+}
+
+/**
+ * Method name  : verifyDeleteJsonResponse
+ * Return types : void
+ * Description  :
+ */
+@Test(description= "DELETE Salvador-XML-Permanent")
+public void verifyDeleteXMLResponse1(){
+	try{
+		String endPoint = data.get("Endpoint");
+		String resource = data.get("Resource");
+		String urlParameters = ath.getURLParam();
+		Response response =delete(endPoint+resource+urlParameters);
+		log.setResponseInLogger(response);
+		log.log("Salvador DELETE Endpoint:  "+endPoint+resource+urlParameters, Status.INFO);
+		if(response.statusCode()==200){
+			log.log("Status code validation: "+200, Status.PASS);
+		}else{
+			log.log("Status code validation: "+response.statusCode(), Status.FAIL);
+		}
+		log.log("Salvador DELETE Headers:  "+response.getHeaders().toString(), Status.INFO);
+		log.log("Salvador DELETE Status Line:  "+response.statusLine(), Status.INFO);
+		log.log("Salvador DELETE Time duration:  "+response.getTimeIn(TimeUnit.MILLISECONDS), Status.INFO);
+	}catch(Exception e){
+		log.log("Exception occurred in the test "+ e.getMessage(), Status.FAIL);
+	}
+}
+}
+
