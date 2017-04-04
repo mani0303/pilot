@@ -21,7 +21,7 @@
 		<pathelement location="bin" />
 		<pathelement location="libs/*" />
 	</path>
-	<target name="init">
+	<target name="init" depends="clean">
 		<mkdir dir="bin" />
 		<copy includeemptydirs="false" todir="bin">
 			<fileset dir="src">
@@ -43,7 +43,7 @@
 			<classpath refid="Pilot.classpath" />
 		</javac>
 	</target>
-	<target name="Test_Controller">
+	<target name="Test_Controller" depends="build">
 		<jacoco:coverage destfile="${result.exec.file}">
 			<java classname="com.test.core.Test_Controller" failonerror="true" fork="yes">
 				<classpath refid="Pilot.classpath" />
