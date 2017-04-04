@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Logger.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Direct Energy Test Automation</a> &gt; <a href="index.source.html" class="el_package">com.test.report</a> &gt; <span class="el_source">Logger.java</span></div><h1>Logger.java</h1><pre class="source lang-java linenums">package com.test.report;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import org.apache.commons.io.FileUtils;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
+import org.openqa.selenium.WebDriver;
+import com.google.gson.Gson;
+import com.jayway.restassured.response.Response;
+import com.test.support.Settings;
+/**
+ * File name    :Logger.java
+ * Description  : 
+ * Date created :13 Sep 2016
+ * Author 		:Veera
+ */
+public class Logger {
+<span class="pc" id="L22">	Settings settings = Settings.getInstance();</span>
+<span class="fc" id="L23">	public static List&lt;Object&gt; reportList = new ArrayList&lt;Object&gt;();</span>
+<span class="fc" id="L24">	public static HashMap&lt;String, Object&gt; tests = new  HashMap&lt;String,Object&gt;();</span>
+<span class="fc" id="L25">	public static Gson gson = new Gson();</span>
+	private HashMap&lt;String, Object&gt; statistic;
+	private HashMap&lt;String, String&gt; testParameters;
+	private HashMap&lt;String, Object&gt; reportData;
+	private WebDriver driver;
+<span class="pc" id="L30">	private String modelHTML=&quot;&quot;;</span>
+<span class="pc" id="L31">	private String stepRowHTML=&quot;&quot;;</span>
+<span class="pc" id="L32">	private String fileFormat=&quot;html&quot;;</span>
+	public Response response;
+<span class="pc" id="L34">	String reportDetailsDir=settings.getReportDetailsDir();</span>
+<span class="pc" id="L35">	HashMap&lt;String, Object&gt; stepInfo = new HashMap&lt;String, Object&gt;();</span>
+<span class="fc" id="L36">	public Logger(HashMap&lt;String, String&gt; testParameters,WebDriver driver){</span>
+<span class="fc" id="L37">		this.testParameters=testParameters;</span>
+<span class="fc" id="L38">		this.driver=driver;</span>
+<span class="fc" id="L39">	}</span>
+
+<span class="nc" id="L41">	public Logger(HashMap&lt;String, String&gt; testParameters){</span>
+<span class="nc" id="L42">		this.testParameters=testParameters;</span>
+<span class="nc" id="L43">	}</span>
+
+	/**
+	 * Method name  : log
+	 * Return types : void
+	 * Description  :
+	 */
+	public void log(String step,String status){
+<span class="fc" id="L51">		String testType=testParameters.get(&quot;Test_Type&quot;).trim();</span>
+<span class="fc" id="L52">		String testId = testParameters.get(&quot;Test_ID&quot;);</span>
+<span class="fc" id="L53">		String browser = testParameters.get(&quot;Browser_Name&quot;);</span>
+<span class="fc" id="L54">		int pass=(int) statistic.get(&quot;passed&quot;);</span>
+<span class="fc" id="L55">		int error=(int) statistic.get(&quot;errors&quot;);</span>
+<span class="fc" id="L56">		int warn=(int) statistic.get(&quot;warnings&quot;);</span>
+<span class="fc" id="L57">		int total=(int) statistic.get(&quot;total&quot;);</span>
+<span class="fc" id="L58">		++total;</span>
+<span class="fc" id="L59">		stepInfo.put(&quot;StepId&quot;, total);</span>
+<span class="fc" id="L60">		stepInfo.put(&quot;StepDesc&quot;, step);</span>
+<span class="fc" id="L61">		stepInfo.put(&quot;StepStatus&quot;, status);</span>
+<span class="fc" id="L62">		statistic.put(&quot;total&quot;,total);</span>
+<span class="fc" id="L63">		System.out.println(&quot;Id : &quot;+testId+&quot; Step: &quot;+step+&quot; Status: &quot;+status);</span>
+<span class="pc bpc" id="L64" title="4 of 10 branches missed.">		switch(status){</span>
+		case &quot;PASS&quot; :
+<span class="fc" id="L66">			++pass;			</span>
+<span class="fc" id="L67">			statistic.put(&quot;passed&quot;,pass);</span>
+<span class="fc" id="L68">			break;</span>
+		case &quot;FAIL&quot; :
+<span class="fc" id="L70">			++error;</span>
+<span class="fc" id="L71">			statistic.put(&quot;errors&quot;,error);</span>
+<span class="fc" id="L72">			break;</span>
+		case &quot;INFO&quot;:
+<span class="fc" id="L74">			++warn;</span>
+<span class="fc" id="L75">			statistic.put(&quot;warnings&quot;,warn);</span>
+			break;
+		}
+<span class="pc bpc" id="L78" title="2 of 6 branches missed.">		if(driver!=null&amp;&amp;testType.equals(&quot;Functional&quot;)&amp;&amp;!browser.equalsIgnoreCase(&quot;headless&quot;)){</span>
+<span class="fc" id="L79">			captureScreen(total);</span>
+<span class="pc bpc" id="L80" title="1 of 2 branches missed.">		}else if(testType.equals(&quot;API_Test&quot;)){</span>
+<span class="nc" id="L81">			captureResponse(total);</span>
+		}
+
+<span class="fc" id="L84">		modelHTML=modelHTML+buildHTMLModel(total);</span>
+<span class="fc" id="L85">		stepRowHTML=stepRowHTML+buildHTMLRow(stepInfo);</span>
+<span class="fc" id="L86">	}</span>
+
+	/**
+	 * Method name  : getResetedStatistic
+	 * Return types : void
+	 * Description  :
+	 */
+	public void getResetedStatistic(){
+<span class="fc" id="L94">		HashMap&lt;String, Object&gt; statistic = new HashMap&lt;String, Object&gt;();</span>
+<span class="fc" id="L95">		statistic.put(&quot;passed&quot;, 0);</span>
+<span class="fc" id="L96">		statistic.put(&quot;errors&quot;, 0);</span>
+<span class="fc" id="L97">		statistic.put(&quot;warnings&quot;, 0);</span>
+<span class="fc" id="L98">		statistic.put(&quot;total&quot;, 0);</span>
+<span class="fc" id="L99">		this.statistic=statistic;</span>
+<span class="fc" id="L100">	}</span>
+	
+	/**
+	 * 
+	 * Method name  : getInitializedReportData
+	 * Return types : void
+	 * Description  :
+	 */
+	public void getInitializedReportData(long startTime){
+<span class="fc" id="L109">		String testId = testParameters.get(&quot;Test_ID&quot;);</span>
+<span class="fc" id="L110">		HashMap&lt;String, Object&gt; reportData = new HashMap&lt;String, Object&gt;();</span>
+<span class="fc" id="L111">		reportData.put(&quot;testId&quot;, testId);</span>
+<span class="fc" id="L112">		reportData.put(&quot;statistic&quot;, statistic);</span>
+<span class="fc" id="L113">		reportData.put(&quot;name&quot;, testParameters.get(&quot;Test_Description&quot;));</span>
+<span class="fc" id="L114">		reportData.put(&quot;startedAt&quot;, startTime);</span>
+<span class="fc" id="L115">		reportData.put(&quot;failed&quot;, false);</span>
+<span class="fc" id="L116">		this.reportData=reportData;</span>
+<span class="fc" id="L117">	}</span>
+	/**
+	 * 
+	 * Method name  : finishTestReport
+	 * Return types : void
+	 * Description  :
+	 */
+	public synchronized void finishTestReport(long startTime){
+<span class="fc" id="L125">		String testId = testParameters.get(&quot;Test_ID&quot;);</span>
+<span class="fc" id="L126">		long endTime = System.currentTimeMillis();</span>
+<span class="fc" id="L127">		long duration = endTime-startTime;</span>
+<span class="fc" id="L128">		reportData.put(&quot;endedAt&quot;, endTime);</span>
+<span class="fc" id="L129">		reportData.put(&quot;duration&quot;, duration);</span>
+<span class="fc" id="L130">		String reportPath=settings.getProjectPath();</span>
+		try {
+<span class="fc" id="L132">			File htmlStepsTemplateFile = new File(settings.getReportDetailsDir()+testId+&quot;.html&quot;);</span>
+<span class="fc" id="L133">			String htmlStepDetailsString = TestReportTemplate.getStepsDetailTemplate();</span>
+<span class="fc" id="L134">			String modifiedStepDetailsReport = htmlStepDetailsString.replace(&quot;REPLACE THIS WITH MODEL CONTENT&quot;, modelHTML).replace(&quot;REPLACE THIS WITH ROWS CONTENT&quot;, stepRowHTML);</span>
+<span class="fc" id="L135">			FileUtils.writeStringToFile(htmlStepsTemplateFile, modifiedStepDetailsReport);</span>
+<span class="fc" id="L136">			reportList.add(this.reportData);</span>
+<span class="fc" id="L137">			tests.put(&quot;tests&quot;, reportList);</span>
+<span class="fc" id="L138">			String json = gson.toJson(tests);</span>
+<span class="fc" id="L139">			File htmlTemplateFile = new File(reportPath+&quot;/TestReport.html&quot;);</span>
+<span class="fc" id="L140">			String htmlString = ReportTemplate.getReportTemplate();</span>
+<span class="fc" id="L141">			String modified = htmlString.replace(&quot;REPLACE THIS WITH TEST RESULTS&quot;, json);</span>
+<span class="fc" id="L142">			FileUtils.writeStringToFile(htmlTemplateFile, modified);</span>
+<span class="pc" id="L143">		} catch (IOException e) {</span>
+<span class="nc" id="L144">			e.printStackTrace();</span>
+		}
+<span class="fc" id="L146">	}</span>
+	/**
+	 * 
+	 * Method name  : captureScreen
+	 * Return types : void
+	 * Description  :
+	 */
+	private void captureScreen(int stepId) {
+<span class="fc" id="L154">		String testId = testParameters.get(&quot;Test_ID&quot;);</span>
+<span class="fc" id="L155">		fileFormat=&quot;png&quot;;</span>
+		try {
+			//WebDriver augmentedDriver = new Augmenter().augment(driver); 
+<span class="fc" id="L158">			File source = ((TakesScreenshot)driver).getScreenshotAs(OutputType.FILE);</span>
+<span class="fc" id="L159">			FileUtils.copyFile(source, new File(reportDetailsDir+testId+&quot;_&quot;+stepId+&quot;.png&quot;));</span>
+<span class="fc" id="L160">		}</span>
+<span class="nc" id="L161">		catch(Exception e) {</span>
+<span class="nc" id="L162">			e.printStackTrace();</span>
+		}
+<span class="fc" id="L164">	}</span>
+	/**
+	 * 
+	 * Method name  : setResponseInLogger
+	 * Return types : void
+	 * Description  :
+	 */
+	public void setResponseInLogger(Response response){
+<span class="nc" id="L172">		this.response=response;</span>
+<span class="nc" id="L173">	}</span>
+	/**
+	 * 
+	 * Method name  : captureResponse
+	 * Return types : void
+	 * Description  :
+	 */
+	private void captureResponse(int stepId) {
+<span class="nc" id="L181">		String testId = testParameters.get(&quot;Test_ID&quot;);</span>
+<span class="nc" id="L182">		String testDescription = testParameters.get(&quot;Test_Description&quot;);</span>
+<span class="nc" id="L183">		fileFormat=&quot;html&quot;;</span>
+<span class="nc" id="L184">		String responseHTML=TestReportTemplate.getResponseHTMLTemplate();</span>
+<span class="nc" id="L185">		File htmlResponseFile = null;</span>
+		try {
+<span class="nc" id="L187">			htmlResponseFile = new File(reportDetailsDir+testId+&quot;_&quot;+stepId+&quot;.html&quot;);</span>
+<span class="nc" id="L188">			String modified = responseHTML.replace(&quot;REPLACE THIS WITH RESPONSE&quot;,response.asString()).replace(&quot;REPLACE THIS WITH DESCRIPTION&quot;, testDescription);</span>
+<span class="nc" id="L189">			FileUtils.writeStringToFile(htmlResponseFile, modified);</span>
+<span class="nc" id="L190">		} catch (Exception e) {</span>
+<span class="nc" id="L191">			String modified = responseHTML.replace(&quot;REPLACE THIS WITH RESPONSE&quot;,&quot;Logger to set response has not done&quot;);</span>
+			try {
+<span class="nc" id="L193">				FileUtils.writeStringToFile(htmlResponseFile, modified);</span>
+<span class="nc" id="L194">			} catch (Exception e1) {</span>
+<span class="nc" id="L195">				e1.printStackTrace();</span>
+			}
+		}
+<span class="nc" id="L198">	}</span>
+	/**
+	 * 
+	 * Method name  : buildHTMLModel
+	 * Return types : String
+	 * Description  :
+	 */
+	private String buildHTMLModel(int stepId){
+<span class="fc" id="L206">		String testId = testParameters.get(&quot;Test_ID&quot;);</span>
+<span class="fc" id="L207">		String modelDiv=&quot;&lt;div id=&quot;+testId+&quot;_&quot;+stepId+&quot; class=\&quot;modal modal-wide fade\&quot;&gt;\r\n&quot; + </span>
+<span class="fc" id="L208">				&quot;  &lt;div class=\&quot;modal-dialog\&quot;&gt;\r\n&quot; + </span>
+<span class="fc" id="L209">				&quot;    &lt;div class=\&quot;modal-content\&quot;&gt;\r\n&quot; + </span>
+<span class="fc" id="L210">				&quot;      &lt;div class=\&quot;modal-header\&quot;&gt;\r\n&quot; + </span>
+<span class="fc" id="L211">				&quot;        &lt;button type=\&quot;button\&quot; class=\&quot;close\&quot; data-dismiss=\&quot;modal\&quot; aria-hidden=\&quot;true\&quot;&gt;&amp;times;&lt;/button&gt;\r\n&quot; + </span>
+<span class="fc" id="L212">				&quot;        &lt;h4 class=\&quot;modal-title\&quot;&gt;Modal title&lt;/h4&gt;\r\n&quot; + </span>
+<span class="fc" id="L213">				&quot;      &lt;/div&gt;\r\n&quot; + </span>
+<span class="fc" id="L214">				&quot;      &lt;div class=\&quot;modal-body\&quot; style=\&quot;width: 1200px; height: 500px;\&quot;&gt;\r\n&quot; + </span>
+<span class="fc" id="L215">				&quot;		  &lt;div&gt;&lt;img src=\&quot;file:///&quot;+reportDetailsDir+testId+&quot;_&quot;+stepId+&quot;.&quot;+fileFormat+&quot;\&quot; style=\&quot;width: 550px; height: 500px;\&quot;&gt;&lt;/div&gt;\r\n&quot; + </span>
+<span class="fc" id="L216">				&quot;      &lt;/div&gt;\r\n&quot; + </span>
+<span class="fc" id="L217">				&quot;      &lt;div class=\&quot;modal-footer\&quot;&gt;\r\n&quot; + </span>
+<span class="fc" id="L218">				&quot;        &lt;button type=\&quot;button\&quot; class=\&quot;btn btn-default\&quot; data-dismiss=\&quot;modal\&quot;&gt;Close&lt;/button&gt;\r\n&quot; + </span>
+<span class="fc" id="L219">				&quot;      &lt;/div&gt;\r\n&quot; + </span>
+<span class="fc" id="L220">				&quot;    &lt;/div&gt;\r\n&quot; + </span>
+<span class="fc" id="L221">				&quot;  &lt;/div&gt;\r\n&quot; + </span>
+<span class="fc" id="L222">				&quot;&lt;/div&gt;&quot;;</span>
+<span class="fc" id="L223">		return modelDiv;</span>
+	}
+	/**
+	 * 
+	 * Method name  : buildHTMLRow
+	 * Return types : String
+	 * Description  :
+	 */
+	public String buildHTMLRow(HashMap&lt;String, Object&gt; stepInfo){
+<span class="fc" id="L232">		String testId = testParameters.get(&quot;Test_ID&quot;);</span>
+<span class="fc" id="L233">		String htmlRow=&quot;&quot;;</span>
+<span class="fc bfc" id="L234" title="All 2 branches covered.">		if(stepInfo.get(&quot;StepStatus&quot;).equals(&quot;PASS&quot;)){</span>
+<span class="fc" id="L235">			htmlRow=&quot;&lt;tr class=\&quot;table-success\&quot;&gt;\r\n&quot; + </span>
+<span class="fc" id="L236">					&quot;      &lt;th scope=\&quot;row\&quot;&gt;&quot;+stepInfo.get(&quot;StepId&quot;)+&quot;&lt;/th&gt;\r\n&quot; + </span>
+<span class="fc" id="L237">					&quot;      &lt;td&gt;&quot;+stepInfo.get(&quot;StepDesc&quot;)+&quot;&lt;/td&gt;\r\n&quot; + </span>
+<span class="fc" id="L238">					&quot;		&lt;td&gt;&lt;a href=\&quot;.\\&quot;+testId+&quot;_&quot;+stepInfo.get(&quot;StepId&quot;)+&quot;.&quot;+fileFormat+&quot;\&quot;&gt;&quot;+stepInfo.get(&quot;StepStatus&quot;)+&quot;&lt;/a&gt;&lt;/td&gt;\r\n&quot; +</span>
+<span class="fc" id="L239">					&quot;    &lt;/tr&gt;&quot;;</span>
+
+<span class="fc bfc" id="L241" title="All 2 branches covered.">		}else if(stepInfo.get(&quot;StepStatus&quot;).equals(&quot;FAIL&quot;)){</span>
+<span class="fc" id="L242">			htmlRow=&quot;&lt;tr class=\&quot;table-danger\&quot;&gt;\r\n&quot; + </span>
+<span class="fc" id="L243">					&quot;      &lt;th scope=\&quot;row\&quot;&gt;&quot;+stepInfo.get(&quot;StepId&quot;)+&quot;&lt;/th&gt;\r\n&quot; + </span>
+<span class="fc" id="L244">					&quot;      &lt;td&gt;&quot;+stepInfo.get(&quot;StepDesc&quot;)+&quot;&lt;/td&gt;\r\n&quot; + </span>
+<span class="fc" id="L245">					&quot;		&lt;td&gt;&lt;a href=\&quot;.\\&quot;+testId+&quot;_&quot;+stepInfo.get(&quot;StepId&quot;)+&quot;.&quot;+fileFormat+&quot;\&quot;&gt;&quot;+stepInfo.get(&quot;StepStatus&quot;)+&quot;&lt;/a&gt;&lt;/td&gt;\r\n&quot; + </span>
+<span class="fc" id="L246">					&quot;    &lt;/tr&gt;&quot;;</span>
+
+<span class="fc" id="L248">		}else{</span>
+<span class="fc" id="L249">			htmlRow=&quot;&lt;tr class=\&quot;table-info\&quot;&gt;\r\n&quot; + </span>
+<span class="fc" id="L250">					&quot;      &lt;th scope=\&quot;row\&quot;&gt;&quot;+stepInfo.get(&quot;StepId&quot;)+&quot;&lt;/th&gt;\r\n&quot; + </span>
+<span class="fc" id="L251">					&quot;      &lt;td&gt;&quot;+stepInfo.get(&quot;StepDesc&quot;)+&quot;&lt;/td&gt;\r\n&quot; + </span>
+					//					&quot;		&lt;td&gt;&lt;a href=\&quot;#&quot;+testId+&quot;_&quot;+stepInfo.get(&quot;StepId&quot;)+&quot;\&quot; data-toggle=\&quot;modal\&quot;&gt;&quot;+stepInfo.get(&quot;StepStatus&quot;)+&quot;&lt;/a&gt;&lt;/td&gt;\r\n&quot; + 
+<span class="fc" id="L253">					&quot;		&lt;td&gt;&lt;a href=\&quot;.\\&quot;+testId+&quot;_&quot;+stepInfo.get(&quot;StepId&quot;)+&quot;.&quot;+fileFormat+&quot;\&quot;&gt;&quot;+stepInfo.get(&quot;StepStatus&quot;)+&quot;&lt;/a&gt;&lt;/td&gt;\r\n&quot; + </span>
+<span class="fc" id="L254">					&quot;    &lt;/tr&gt;&quot;;</span>
+		}
+<span class="fc" id="L256">		return htmlRow;</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span></div></body></html>

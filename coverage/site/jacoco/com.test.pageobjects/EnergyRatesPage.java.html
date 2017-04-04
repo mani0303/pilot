@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>EnergyRatesPage.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Direct Energy Test Automation</a> &gt; <a href="index.source.html" class="el_package">com.test.pageobjects</a> &gt; <span class="el_source">EnergyRatesPage.java</span></div><h1>EnergyRatesPage.java</h1><pre class="source lang-java linenums">package com.test.pageobjects;
+
+import java.util.List;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
+import com.test.core.RunnerHelper;
+import com.test.support.Status;
+
+public class EnergyRatesPage extends PageSupporter {
+	public EnergyRatesPage(RunnerHelper helper) {
+<span class="fc" id="L12">		super(helper);</span>
+<span class="fc" id="L13">	}</span>
+
+	public boolean selectEnergyPlanAndClickSignUp(){
+		try{
+<span class="fc" id="L17">			List&lt;WebElement&gt; AddToCart = driver.findElements(By.cssSelector(identifier.getIdentifier(&quot;AddToCart&quot;)));</span>
+<span class="fc" id="L18">			AddToCart.get(0).click();</span>
+<span class="fc" id="L19">			WebElement SignUp = driver.findElement(By.partialLinkText(identifier.getIdentifier(&quot;SignUp&quot;)));</span>
+<span class="fc" id="L20">			SignUp.click();</span>
+<span class="fc" id="L21">			log.log(&quot;Select Energy plan and proceed for sign up&quot;, Status.INFO);</span>
+<span class="fc" id="L22">			Thread.sleep(5000);</span>
+<span class="fc" id="L23">			int agreeCount = driver.findElements(By.cssSelector(identifier.getIdentifier(&quot;Agreement&quot;))).size();</span>
+<span class="pc bpc" id="L24" title="1 of 2 branches missed.">			if(agreeCount&gt;0){</span>
+<span class="fc" id="L25">				WebElement Agreement = driver.findElement(By.cssSelector(identifier.getIdentifier(&quot;Agreement&quot;)));</span>
+<span class="fc" id="L26">				Agreement.click();</span>
+			}
+<span class="fc" id="L28">			return true;</span>
+<span class="fc" id="L29">		}catch(Exception e){</span>
+<span class="fc" id="L30">			log.log(&quot;Select Energy plan and proceed for sign up&quot;, Status.FAIL);</span>
+<span class="fc" id="L31">			return false;</span>
+		}		
+	}
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span></div></body></html>

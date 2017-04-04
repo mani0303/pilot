@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>TestReportTemplate.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Direct Energy Test Automation</a> &gt; <a href="index.source.html" class="el_package">com.test.report</a> &gt; <span class="el_source">TestReportTemplate.java</span></div><h1>TestReportTemplate.java</h1><pre class="source lang-java linenums">package com.test.report;
+/**
+ * File name   :TestReportTemplate.java
+ * Description  : 
+ * Date created :13 Sep 2016
+ * Author 		:Veera
+ */
+<span class="nc" id="L8">public class TestReportTemplate {</span>
+	/**
+	 * 
+	 * Method name  : getStepsDetailTemplate
+	 * Return types : String
+	 * Description  :
+	 */
+	public static String getStepsDetailTemplate(){
+<span class="fc" id="L16">		String stepsDetailTemplate=&quot;&lt;html lang=\&quot;en\&quot;&gt;\r\n&quot; + </span>
+				&quot;  &lt;head&gt;\r\n&quot; + 
+				&quot;    &lt;!-- Required meta tags always come first --&gt;\r\n&quot; + 
+				&quot;    &lt;meta charset=\&quot;utf-8\&quot;&gt;\r\n&quot; + 
+				&quot;    &lt;meta name=\&quot;viewport\&quot; content=\&quot;width=device-width, initial-scale=1, shrink-to-fit=no\&quot;&gt;\r\n&quot; + 
+				&quot;    &lt;meta http-equiv=\&quot;x-ua-compatible\&quot; content=\&quot;ie=edge\&quot;&gt;\r\n&quot; + 
+				&quot;    &lt;!-- Bootstrap CSS --&gt;\r\n&quot; + 
+				&quot;    &lt;link rel=\&quot;stylesheet\&quot; href=\&quot;https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.3/css/bootstrap.min.css\&quot; integrity=\&quot;sha384-MIwDKRSSImVFAZCVLtU0LMDdON6KVCrZHyVQQj6e8wIEJkW4tvwqXrbMIya1vriY\&quot; crossorigin=\&quot;anonymous\&quot;&gt;\r\n&quot; + 
+				&quot;	&lt;/head&gt;\r\n&quot; + 
+				&quot;  &lt;body&gt;\r\n&quot; + 
+				&quot;REPLACE THIS WITH MODEL CONTENT\r\n&quot; + 
+				&quot;&lt;table class=\&quot;table table-striped\&quot;&gt;\r\n&quot; + 
+				&quot;  &lt;thead&gt;\r\n&quot; + 
+				&quot;    &lt;tr&gt;\r\n&quot; + 
+				&quot;      &lt;th&gt;Step No&lt;/th&gt;\r\n&quot; + 
+				&quot;      &lt;th&gt;Step Description&lt;/th&gt;\r\n&quot; + 
+				&quot;      &lt;th&gt;Status&lt;/th&gt;\r\n&quot; + 
+				&quot;    &lt;/tr&gt;\r\n&quot; + 
+				&quot;  &lt;/thead&gt;\r\n&quot; + 
+				&quot;  &lt;tbody&gt;\r\n&quot; +
+				&quot;	 REPLACE THIS WITH ROWS CONTENT\r\n&quot; + 				
+				&quot;  &lt;/tbody&gt;\r\n&quot; + 
+				&quot;&lt;/table&gt;\r\n&quot; + 
+				&quot;    &lt;!-- jQuery first, then Tether, then Bootstrap JS. --&gt;\r\n&quot; + 
+				&quot;    &lt;script src=\&quot;https://ajax.googleapis.com/ajax/libs/jquery/3.0.0/jquery.min.js\&quot; integrity=\&quot;sha384-THPy051/pYDQGanwU6poAc/hOdQxjnOEXzbT+OuUAFqNqFjL+4IGLBgCJC3ZOShY\&quot; crossorigin=\&quot;anonymous\&quot;&gt;&lt;/script&gt;\r\n&quot; + 
+				&quot;    &lt;script src=\&quot;https://cdnjs.cloudflare.com/ajax/libs/tether/1.2.0/js/tether.min.js\&quot; integrity=\&quot;sha384-Plbmg8JY28KFelvJVai01l8WyZzrYWG825m+cZ0eDDS1f7d/js6ikvy1+X+guPIB\&quot; crossorigin=\&quot;anonymous\&quot;&gt;&lt;/script&gt;\r\n&quot; + 
+				&quot;    &lt;script src=\&quot;https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.3/js/bootstrap.min.js\&quot; integrity=\&quot;sha384-ux8v3A6CPtOTqOzMKiuo3d/DomGaaClxFYdCu2HPMBEkf6x2xiDyJ7gkXU0MWwaD\&quot; crossorigin=\&quot;anonymous\&quot;&gt;&lt;/script&gt;\r\n&quot; + 
+				&quot;  &lt;/body&gt;\r\n&quot; + 
+				&quot;&lt;/html&gt;&quot;;
+<span class="fc" id="L45">		return stepsDetailTemplate;</span>
+	}
+	/**
+	 * Method name  : getResponseHTMLTemplate
+	 * Return types : String
+	 * Description  :
+	 */
+	public static String getResponseHTMLTemplate(){
+<span class="nc" id="L53">		String responseHTMLTemplate=&quot;&lt;html&gt;\r\n&quot; + </span>
+				&quot;  &lt;head&gt;\r\n&quot; + 
+				&quot;    &lt;!--Import Bootstrap CSS--&gt;\r\n&quot; + 
+				&quot;    &lt;link rel=\&quot;stylesheet\&quot; href=\&quot;https://s3-eu-west-1.amazonaws.com/effractarius-resources/bootstrap.min.css\&quot; /&gt;\r\n&quot; + 
+				&quot;    &lt;style type='text/css'&gt;  \r\n&quot; + 
+				&quot;    .header {\r\n&quot; + 
+				&quot;        margin: 30px;\r\n&quot; + 
+				&quot;        padding: 30px;\r\n&quot; + 
+				&quot;        width: 250px;\r\n&quot; + 
+				&quot;        color: #fff;\r\n&quot; + 
+				&quot;        background-color: aquamarine;\r\n&quot; + 
+				&quot;        font-weight: bold;\r\n&quot; + 
+				&quot;    }\r\n&quot; + 
+				&quot;    @-moz-document url-prefix() {\r\n&quot; + 
+				&quot;    fieldset { display: table-cell; }\r\n&quot; + 
+				&quot;    }  \r\n&quot; + 
+				&quot;   .table-custom {\r\n&quot; + 
+				&quot;     margin-top: 40px;\r\n&quot; + 
+				&quot;    }\r\n&quot; + 
+				&quot;    &lt;/style&gt;\r\n&quot; + 
+				&quot;  &lt;/head&gt;\r\n&quot; + 
+				&quot;  &lt;body class=\&quot;container-fluid\&quot;&gt;	\r\n&quot; + 
+				&quot;    &lt;div class=\&quot;table-responsive\&quot;&gt;   \r\n&quot; + 
+				&quot;     &lt;table id=\&quot;veera-template\&quot; class=\&quot;table table-bordered table-custom\&quot;&gt;\r\n&quot; + 
+				&quot;	  &lt;th colspan=\&quot;4\&quot; background-color=\&quot;aquamarine\&quot;&gt;&lt;center&gt;REPLACE THIS WITH DESCRIPTION&lt;/center&gt;&lt;/th&gt;\r\n&quot; + 
+				&quot;      &lt;tr class=\&quot;header\&quot;&gt;\r\n&quot; + 
+				&quot;        &lt;td&gt;Actual Response&lt;/td&gt;\r\n&quot; + 
+				&quot;      &lt;/tr&gt;\r\n&quot; + 
+				&quot;      &lt;tr&gt;\r\n&quot; + 
+				&quot;        &lt;td&gt;&lt;pre&gt;&lt;code&gt;REPLACE THIS WITH RESPONSE\r\n&quot; + 
+				&quot;&lt;/pre&gt;&lt;/code&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;\r\n&quot; + 
+				&quot;&lt;/div&gt;\r\n&quot; + 
+				&quot;&lt;script&gt;\r\n&quot; + 
+				&quot;   //format json when the page loads\r\n&quot; + 
+				&quot;   //parent is an id - I've given the table the id veera-template\r\n&quot; + 
+				&quot;   //tagname is the element that you want to find, eg: h1, code, div\r\n&quot; + 
+				&quot;   function formatJSON(parent, tagname){\r\n&quot; + 
+				&quot;\r\n&quot; + 
+				&quot;   parent = document.getElementById(parent);\r\n&quot; + 
+				&quot;   var descendants = parent.getElementsByTagName(tagname);\r\n&quot; + 
+				&quot;   if (descendants.length){\r\n&quot; + 
+				&quot;    var i = 0;\r\n&quot; + 
+				&quot;      for (var descendant in descendants){\r\n&quot; + 
+				&quot;        while (i &lt;= descendants.length){\r\n&quot; + 
+				&quot;         jsonObj= JSON.parse(descendants[i].innerHTML);\r\n&quot; + 
+				&quot;         descendants[i].innerHTML = JSON.stringify(jsonObj, null,2);\r\n&quot; + 
+				&quot;         i++;\r\n&quot; + 
+				&quot;        }         \r\n&quot; + 
+				&quot;      }\r\n&quot; + 
+				&quot;   }\r\n&quot; + 
+				&quot;   else{\r\n&quot; + 
+				&quot;   return null;\r\n&quot; + 
+				&quot;   }\r\n&quot; + 
+				&quot;}\r\n&quot; + 
+				&quot;formatJSON(\&quot;veera-template\&quot;, \&quot;code\&quot;);\r\n&quot; + 
+				&quot;console.log(header);\r\n&quot; + 
+				&quot;&lt;/script&gt;\r\n&quot; + 
+				&quot;     &lt;!--Import JQuery (required by bootstrap) and bootstrap js--&gt;\r\n&quot; + 
+				&quot;    &lt;script type=\&quot;text/javascript\&quot; src=\&quot;https://s3-eu-west-1.amazonaws.com/effractarius-resources/jquery.js\&quot;&gt;&lt;/script&gt;\r\n&quot; + 
+				&quot;    &lt;script type=\&quot;text/javascript\&quot; src=\&quot;https://s3-eu-west-1.amazonaws.com/effractarius-resources/bootstrap.min.js\&quot;&gt;&lt;/script&gt;\r\n&quot; + 
+				&quot;    \r\n&quot; + 
+				&quot;  &lt;/body&gt;\r\n&quot; + 
+				&quot;&lt;/html&gt;\r\n&quot; + 
+				&quot;\r\n&quot;;
+<span class="nc" id="L117">		return responseHTMLTemplate;</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span></div></body></html>
