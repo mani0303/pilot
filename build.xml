@@ -19,7 +19,10 @@
 	</taskdef>
 	<path id="Pilot.classpath">
 		<pathelement location="bin" />
-		<pathelement location="libs/*" />
+		<!--<pathelement location="libs/**" />-->
+		<fileset dir="libs">
+    			<include name="**/*.jar" />
+  		</fileset>
 	</path>
 	<target name="init" depends="clean">
 		<mkdir dir="bin" />
